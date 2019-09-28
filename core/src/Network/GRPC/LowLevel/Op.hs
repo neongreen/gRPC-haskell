@@ -131,8 +131,8 @@ withOpArrayAndCtxts ops = bracket setup teardown
                    arr <- C.opArrayCreate l
                    sequence_ $ zipWith (setOpArray arr) [0..l-1] ctxts
                    return (arr, ctxts)
-        teardown (arr, ctxts) = do C.opArrayDestroy arr (length ctxts)
-                                   mapM_ freeOpContext ctxts
+        teardown (arr, ctxts) = do mapM_ freeOpContext ctxts
+                                   C.opArrayDestroy arr (length ctxts)
 
 -- | Container holding GC-managed results for 'Op's which receive data.
 data OpRecvResult =
